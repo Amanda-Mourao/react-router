@@ -7,7 +7,7 @@ function Navbar() {
       <header className="flex items-center justify-around bg-[#ef5c55] text-white border-b-2">
         <div className="flex items-center gap-10">
           <NavLink to="/">
-            <img src={logo} className="w-[150px]" alt="logo" />
+            <img src={logo} className="w-[150px]" alt="Pokédex Diary" />
           </NavLink>
           <h1 className="text-3xl font-bold">Pokédex Diary</h1>
         </div>

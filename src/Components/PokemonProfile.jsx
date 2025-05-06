@@ -41,36 +41,64 @@ function PokemonProfile() {
             alert(`${pokemon.name} is already in your favorites.`);
         }
     };
-    console.log(pokemon);
+
+    const isFavorite = (pokemon) => {
+        const currentFavorites =
+            JSON.parse(localStorage.getItem("favorites")) || [];
+        return currentFavorites.some((fav) => fav.id === pokemon.id);
+    };
+
     return (
         <div className="min-h-screen bg-[#f5f6f8] py-8">
             <div className="container mx-auto px-4">
                 <h1 className="text-3xl font-bold mb-6 text-center text-[#ef5c55]">
                     Pokémon Profile
                 </h1>
-                <div className="bg-[#4a7de6] text-white rounded-xl shadow p-4 hover:shadow-lg transition-all duration-300 border-2 w-60">
-                    <h2 className="text-xl font-semibold uppercase mb-2">
-                        {pokemon.name}
-                    </h2>
-                    {/* <p className="text-sm">HP: {pokemon.stats?.map((base_stat) => base_stat. stats.[1])}</p> */}
-                    <p className="text-sm uppercase">TYPE: {pokemon.types?.map((typeInfo) => typeInfo.type.name).join(", ")}</p>
-                    <button
-                        onClick={handleAddToFavorites}
-                        className="active:text-amber-300"
-                    >
-                        ★
-                    </button>
+                <div className="bg-[#4a7de6] text-white rounded-xl shadow p-4 hover:shadow-lg transition-all duration-300 border-2 w-75">
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-xl font-semibold uppercase mb-2">
+                            {pokemon.name}
+                        </h2>
+                        <p className="text-sm">HP: {pokemon.stats?.[0]?.base_stat}</p>
+                    </div>
+                    <div className="flex justify-between items-center">
+                        <p className="text-sm uppercase">
+                            TYPE: {pokemon.types?.map((typeInfo) => typeInfo.type.name).join(", ")}
+                        </p>
+                        <button
+                            onClick={() => handleAddToFavorites(pokemon)}
+                            disabled={isFavorite(pokemon)}
+                            className={`text-2xl transition-colors duration-200 ${isFavorite(pokemon)
+                                ? 'text-yellow-300 cursor-not-allowed'
+                                : 'text-white hover:text-yellow-300'
+                                }`}
+                            title={
+                                isFavorite(pokemon)
+                                    ? 'Already in favorites'
+                                    : 'Add to favorites'
+                            }
+                        >
+                            {isFavorite(pokemon) ? '★' : '☆'}
+                        </button>
+                    </div>
                     <img
                         src={pokemon.sprites?.front_default}
                         alt={pokemon.name}
                         className="w-100"
                     />
-                    {/* <p className="text-sm text-center">ATTACK: {pokemon.stats[1].base_stat} | DEFENSE: {pokemon.stats[2].base_stat}</p> */}
+                    <p className="text-sm text-center">
+                        ATTACK: {pokemon.stats?.[1]?.base_stat} | DEFENSE: {pokemon.stats?.[2]?.base_stat}
+                    </p>
                     <p className="text-sm text-center">
                         HEIGHT: {pokemon.height / 10}m | WEIGHT: {pokemon.weight / 10}kg
                     </p>
                     <br></br>
-                    <p className="text-sm uppercase text-center">ABILITIES:<br></br>{pokemon.abilities?.map((abilityInfo) => abilityInfo.ability.name).join(", ")}</p>
+                    <p className="text-sm uppercase text-center">
+                        ABILITIES:<br></br>
+                        {pokemon.abilities
+                            ?.map((abilityInfo) => abilityInfo.ability.name)
+                            .join(", ")}
+                    </p>
                 </div>
             </div>
         </div>
