@@ -8,7 +8,12 @@ const Favorites = () => {
     setFavorites(storedFavorites);
   }, []);
 
-  console.log(favorites);
+  const handleRemoveFromFavorites = (id) => {
+    const updatedFavorites = favorites.filter((fav) => fav.id !== id);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    setFavorites(updatedFavorites);
+    alert("removed from favorites");
+  };
 
   return (
     <div className="bg-[#f5f6f8] min-h-screen py-8">
@@ -16,16 +21,13 @@ const Favorites = () => {
         <h1 className="text-3xl font-bold mb-6 text-center text-[#ef5c55]">
           Favorite Pokémons
         </h1>
-        <div
-          id="pokemon-container"
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-        >
+        <div>
           {favorites.length === 0 ? (
             <p className="text-[#ef5c55] font-bold text-center">
-              No favorites yet!
+              NO FAVORITES YET!
             </p>
           ) : (
-            <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {favorites.map((fav) => (
                 <div
                   key={fav.id}
@@ -39,18 +41,22 @@ const Favorites = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <p className="text-sm uppercase">
-                      TYPE: {fav.types
+                      TYPE:{" "}
+                      {fav.types
                         ?.map((typeInfo) => typeInfo.type.name)
                         .join(", ")}
                     </p>
+                    <button
+                      onClick={() => handleRemoveFromFavorites(fav.id)}
+                      className="text-2xl text-yellow-300 hover:text-white transition-colors duration-200"
+                    >
+                      ★
+                    </button>
                   </div>
-                  <img
-                    src={fav.image}
-                    alt={fav.name}
-                    className="w-100"
-                  />
+                  <img src={fav.image} alt={fav.name} className="w-100" />
                   <p className="text-sm text-center">
-                    ATTACK: {fav.stats?.[1]?.base_stat} | DEFENSE: {fav.stats?.[2]?.base_stat}
+                    ATTACK: {fav.stats?.[1]?.base_stat} | DEFENSE:{" "}
+                    {fav.stats?.[2]?.base_stat}
                   </p>
                   <p className="text-sm text-center">
                     HEIGHT: {fav.height / 10}m | WEIGHT: {fav.weight / 10}
@@ -59,7 +65,9 @@ const Favorites = () => {
                   <br></br>
                   <p className="text-sm uppercase text-center">
                     ABILITIES:<br></br>
-                    {fav.abilities?.map((abilityInfo) => abilityInfo.ability.name).join(", ")}
+                    {fav.abilities
+                      ?.map((abilityInfo) => abilityInfo.ability.name)
+                      .join(", ")}
                   </p>
                 </div>
               ))}
