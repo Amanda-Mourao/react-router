@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSearch } from "../context/SearchContext";
 
 function Pokemons() {
   const [pokemons, setPokemons] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const { searchTerm } = useSearch();
 
   useEffect(() => {
     const fetchPokemons = async () => {
@@ -74,6 +76,14 @@ function Pokemons() {
     return currentFavorites.some((fav) => fav.id === pokemon.id);
   };
 
+  const filteredPokemons = searchTerm
+    ? pokemons.filter(
+        (el) =>
+          el.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          el.id.toString() === searchTerm
+      )
+    : pokemons;
+
   return (
     <div className="bg-[#f5f6f8] min-h-screen py-8">
       <div className="container mx-auto px-4">
@@ -84,7 +94,12 @@ function Pokemons() {
           id="pokemon-container"
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
         >
-          {pokemons.map((pokemon) => (
+          {filteredPokemons.length === 0 && (
+            <p className="text-center col-span-full text-gray-600 text-xl">
+              No Pokemon found for "{searchTerm}"
+            </p>
+          )}
+          {filteredPokemons.map((pokemon) => (
             <div
               key={pokemon.id}
               className="bg-[#4a7de6] text-white rounded-xl shadow p-4 hover:shadow-lg transition-all duration-300 border-2"

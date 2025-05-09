@@ -49,14 +49,14 @@ function PokemonProfile() {
 
   const handleRemoveFromFavorites = () => {
     const currentFavorites =
-        JSON.parse(localStorage.getItem("favorites")) || [];
+      JSON.parse(localStorage.getItem("favorites")) || [];
     const updatedFavorites = currentFavorites.filter(
-        (fav) => fav.id !== pokemon.id
+      (fav) => fav.id !== pokemon.id
     );
 
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     alert(`${pokemon.name} removed from favorites`);
-};
+  };
 
   const isFavorite = (pokemon) => {
     const currentFavorites =
@@ -83,19 +83,19 @@ function PokemonProfile() {
               {pokemon.types?.map((typeInfo) => typeInfo.type.name).join(", ")}
             </p>
             <button
-                  onClick={() =>
-                    isFavorite(pokemon)
-                      ? handleRemoveFromFavorites(pokemon)
-                      : handleAddToFavorites(pokemon)
-                  }
-                  className={`text-2xl transition-colors duration-200 ${
-                    isFavorite(pokemon)
-                      ? "text-yellow-300 hover:text-white"
-                      : "text-white hover:text-yellow-300"
-                  }`}
-                >
-                  {isFavorite(pokemon) ? "★" : "☆"}
-                </button>
+              onClick={() =>
+                isFavorite(pokemon)
+                  ? handleRemoveFromFavorites(pokemon)
+                  : handleAddToFavorites(pokemon)
+              }
+              className={`text-2xl transition-colors duration-200 ${
+                isFavorite(pokemon)
+                  ? "text-yellow-300 hover:text-white"
+                  : "text-white hover:text-yellow-300"
+              }`}
+            >
+              {isFavorite(pokemon) ? "★" : "☆"}
+            </button>
           </div>
           <img
             src={pokemon.sprites?.front_default}
