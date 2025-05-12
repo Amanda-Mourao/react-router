@@ -95,8 +95,8 @@ function Pokemons() {
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
         >
           {filteredPokemons.length === 0 && (
-            <p className="text-center col-span-full text-gray-600 text-xl">
-              No Pokemon found for "{searchTerm}"
+            <p className="text-center col-span-full text-[#ef5c55] font-bold">
+              NO POKEMON FOUND FOR "{searchTerm}"!
             </p>
           )}
           {filteredPokemons.map((pokemon) => (

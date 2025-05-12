@@ -4,8 +4,7 @@ import { useSearch } from "../context/SearchContext";
 
 function Navbar() {
   const { searchTerm, setSearchTerm } = useSearch();
-  // const handleSearch = () => {
-  // }
+
   console.log(searchTerm);
   return (
     <>
